@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' "/Users/a123456/Documents/PHD/Coursework/Data Visualization/Project/MLPart/venv/bin/python3.11" "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from rsa.cli import encrypt
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(encrypt())

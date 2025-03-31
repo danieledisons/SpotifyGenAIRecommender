@@ -7,7 +7,7 @@ import uvicorn
 app = FastAPI(title="Spotify Track Recommender API")
 
 # Initialize recommender (will load data on startup)
-recommender = SpotifyRecommender()
+recommender = SpotifyRecommender(api_key="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")
 
 # Configure CORS
 app.add_middleware(
@@ -26,22 +26,17 @@ def get_all_tracks():
     return recommender.get_all_tracks()
 
 @app.get("/recommend/{track_name}")
-def get_recommendations(track_name: str, n: int = 5):
-    """
-    Get track recommendations
-    
-    Parameters:
-    - track_name: Name of the track to get recommendations for
-    - n: Number of recommendations to return (default: 5)
-    """
-    result = recommender.recommend_tracks(track_name, n)
+def get_recommendations(track_name: str, n: int = 5, explain: bool = False):
+    """Get track recommendations with optional AI explanation"""
+    result = recommender.recommend_tracks(track_name, n, include_explanation=explain)
     
     if result["error"]:
         raise HTTPException(status_code=404, detail=result["error"])
     
     return {
         "seed_track": track_name,
-        "recommendations": result["recommendations"]
+        "recommendations": result["recommendations"],
+        "explanation": result["explanation"] if explain else None
     }
 
 @app.get("/search")

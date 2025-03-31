@@ -98,7 +98,7 @@ class SpotifyRecommender:
                         {rec_list}
                         
                         Provide a concise 2-3 sentence explanation focusing on musical characteristics and why each recommended song {rec_list} is similar to the {seed_track}.
-                        Talk about each song, in keypoints/numbers.
+                        
                         """
                     }
                 ],

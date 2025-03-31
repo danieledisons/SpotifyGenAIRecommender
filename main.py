@@ -3,11 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from model import SpotifyRecommender
 from typing import List, Dict
 import uvicorn
+from dotenv import load_dotenv
+import os
 
 app = FastAPI(title="Spotify Track Recommender API")
+load_dotenv()
 
 # Initialize recommender (will load data on startup)
-recommender = SpotifyRecommender(api_key="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")
+recommender = SpotifyRecommender(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Configure CORS
 app.add_middleware(

@@ -9,8 +9,18 @@ import os
 app = FastAPI(title="Spotify Track Recommender API")
 load_dotenv()
 
-# Initialize recommender (will load data on startup)
-recommender = SpotifyRecommender(api_key=os.getenv("OPENAI_API_KEY"))
+# # Initialize recommender (will load data on startup)
+# recommender = SpotifyRecommender(api_key=os.getenv("OPENAI_API_KEY"))
+recommender = None
+
+@app.on_event("startup")
+def load_recommender():
+    global recommender
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing OPENAI_API_KEY")
+    recommender = SpotifyRecommender(api_key=api_key)
+
 
 # Configure CORS
 app.add_middleware(
